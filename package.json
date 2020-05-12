@@ -4,7 +4,7 @@
   "description": "API that returns polls results.",
   "main": "index.js",
   "scripts": {
-    "start": "node ./index.js"
+    "start": "node ./index"
   },
   "author": "Christopher Fiallos",
   "license": "ISC",
