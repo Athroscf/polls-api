@@ -2,21 +2,35 @@ const Usuario = require("../models/Usuarios");
 
 exports.newUser = async (req, res, next) => {
     const user = new Usuario(req.body);
+    const userExist = await Usuario.find({ email: req.body.email})
+
+    console.log(user);
 
     try {
-        await user.save();
+        if (!userExist) {
+            res
+                .status(400)
+                .send({
+                    error: "Este usuario ya existe"
+                })
+        } else {
 
-        res
-            .status(200)
-            .send({
-                mensaje: "Se agregó un nuevo usuario"
-            });
+            await user.save();
+
+            res
+                .status(200)
+                .send({
+                    mensaje: "Se agregó un nuevo usuario"
+                });
+        }
 
     } catch (error) {
+        console.log(error);
+        
         res
-            .status(422)
+            .status(401)
             .send({
-                error: "Error al agregar un nuevo usuario"
+                error: "Todos los campos deben ser llenados"
             });
     }
 };
